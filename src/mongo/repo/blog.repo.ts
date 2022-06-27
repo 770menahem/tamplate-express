@@ -7,7 +7,7 @@ export const createBlog = async (blog: Blog) => {
 };
 
 export const updateBlog = async (blogId: string, description: string) => {
-    const blog = await blogModel.findByIdAndUpdate(blogId, { description });
+    const blog = await blogModel.findByIdAndUpdate(blogId, { description }, { new: true });
     return blog;
 };
 

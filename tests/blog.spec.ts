@@ -22,20 +22,22 @@ describe('blog service', () => {
             description: 'description',
         };
         createdBlog = await blogService.createBlog(newBlog);
-        expect(createdBlog).toBeDefined();
+        expect(createdBlog?.name).toEqual(newBlog.name);
+        expect(createdBlog?.description).toEqual(newBlog.description);
     });
 
     test('update blog', async () => {
         const blogId = createdBlog._id!;
-        const description = 'test';
+        const description = 'test update';
         const blog = await blogService.updateBlog(blogId, description);
-        expect(blog).toBeDefined();
+        expect(blog?.description).toEqual('test update');
     });
 
     test('delete blog', async () => {
         const blogId = createdBlog._id!;
-        const blog = await blogService.deleteBlog(blogId);
-        expect(blog).toBeDefined();
+        await blogService.deleteBlog(blogId);
+        const blog = await blogService.getBlog(blogId);
+        expect(blog).toEqual(null);
     });
 
     test('create blog', async () => {
@@ -44,7 +46,7 @@ describe('blog service', () => {
             description: 'test',
         };
         createdBlog = await blogService.createBlog(newBlog);
-        expect(createdBlog).toBeDefined();
+        expect(createdBlog.name).toEqual('test');
     });
 
     test('get blog', async () => {
