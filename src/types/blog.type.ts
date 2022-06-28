@@ -1,6 +1,6 @@
 type Blog = {
     _id?: string;
-    name: string;
+    title: string;
     description: string;
     createdAt?: Date;
     updatedAt?: Date;

@@ -27,6 +27,12 @@ export const errorMiddleware = (error: Error, _req: express.Request, res: expres
             type: error.name,
             message: error.message,
         });
+    } else if (error.name === 'MongoServerError') {
+        res.status(400).send({
+            type: error.name,
+            message: 'your data is not valid maybe you have a duplicate data',
+            errorMessage: error.message,
+        });
     } else {
         res.status(500).send({
             type: error.name,

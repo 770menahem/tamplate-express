@@ -13,27 +13,27 @@ const { port } = config.server || 6060;
 /**
  * Initializing the express server
  */
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(logger('dev'));
+
+app.use('/users', userRouter);
+app.use('/blogs', blogRouter);
+
+app.use(errorMiddleware);
+
+app.use('/isAlive', (_req, res) => {
+    res.send(checkConnection() ? 'OK' : 'Not OK');
+});
+
+app.use('*', (_req, res) => {
+    res.status(404).send('Invalid Route');
+});
+
 export default () => {
-    const app = express();
-
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-
-    app.use(logger('dev'));
-
-    app.use('/users', userRouter);
-    app.use('/blogs', blogRouter);
-
-    app.use(errorMiddleware);
-
-    app.use('/isAlive', (_req, res) => {
-        res.send(checkConnection() ? 'OK' : 'Not OK');
-    });
-
-    app.use('*', (_req, res) => {
-        res.status(404).send('Invalid Route');
-    });
-
     app.listen(port, () => {
         console.log(`listening at http://localhost:${port}`);
     });

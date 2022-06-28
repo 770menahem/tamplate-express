@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import config from '../config';
-import { logInfo } from '../logger';
+import { logInfo } from '../log/logger';
 
 const { mongo } = config;
 

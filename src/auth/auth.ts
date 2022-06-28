@@ -5,10 +5,10 @@ import config from '../config/index';
 import { decrypt } from '../utils/encrypt';
 import * as userService from '../express/services/user.service';
 
-const errorRes = (res: Response) => res.status(401).send('Unauthorized');
+const errorRes = (res: Response) => res.status(401).send({ error: 'unauthorized', status: 401 });
 
 type payloadType = {
-    token: string;
+    userIdEnc: string;
 };
 
 const isAuth = async (req: Request, res: Response, next: NextFunction) => {
@@ -21,9 +21,9 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
 
         const payload: payloadType = verify(token, config.keys.tokenKey) as payloadType;
 
-        if (!payload || !payload.token) return errorRes(res);
+        if (!payload || !payload.userIdEnc) return errorRes(res);
 
-        const userId = decrypt(payload.token);
+        const userId = decrypt(payload.userIdEnc);
 
         const user = await userService.getUserById(userId);
 

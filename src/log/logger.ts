@@ -42,5 +42,5 @@ export const logError = (msg: string, any?: any) => {
 };
 
 export const logs = (level: string, msg: string, any?: any) => {
-    logger[level](`${msg} ${!any ? '' : JSON.stringify(any)}`);
+    logger[level](`${msg}${!any ? '' : ' ' + JSON.stringify(any)}`);
 };

@@ -2,43 +2,43 @@ import User from '../../types/user.type';
 import { userModel } from '../models/user.model';
 
 // create user
-export const createUser = async (user: User) => {
+export const createUser = async (user: User): Promise<User> => {
     const newUser = await userModel.create(user);
     return newUser;
 };
 
 // update user
-export const updateUser = async (userId: string, name: string) => {
+export const updateUser = async (userId: string, name: string): Promise<User | null> => {
     const user = await userModel.findByIdAndUpdate(userId, { name }, { new: true });
     return user;
 };
 
 // delete user
-export const deleteUser = async (userId: string) => {
+export const deleteUser = async (userId: string): Promise<User | null> => {
     const user = await userModel.findByIdAndDelete(userId);
     return user;
 };
 
 // get user
-export const getUserById = async (userId: string) => {
+export const getUserById = async (userId: string): Promise<User | null> => {
     const user = await userModel.findById(userId, { password: 0 });
     return user;
 };
 
 // get all users
-export const getAllUsers = async () => {
+export const getAllUsers = async (): Promise<User[] | null> => {
     const users = await userModel.find({}, { password: 0 });
     return users;
 };
 
 // get a user by name
-export const getUserByName = async (name: string) => {
+export const getUserByName = async (name: string): Promise<User | null> => {
     const user = await userModel.findOne({ name }, { password: 0 });
     return user;
 };
 
 // get a user by name and password
-export const getUserByNameAndPassword = async (name: string, password: string) => {
+export const getUserByNameAndPassword = async (name: string, password: string): Promise<User | null> => {
     const user = await userModel.findOne({ name, password }, { password: 0 });
     return user;
 };
