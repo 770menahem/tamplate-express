@@ -1,5 +1,5 @@
-import Blog from '../../types/blogType';
-import blogModel from '../model';
+import Blog from '../../types/blog.type';
+import blogModel from '../models/blog.model';
 
 export const createBlog = async (blog: Blog) => {
     const newBlog = await blogModel.create(blog);

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as logger from 'morgan';
-import blogRouter from './routes/blog.recovery';
+import blogRouter from './routes/blog.route';
 import config from '../config/index';
 import { errorMiddleware } from './error';
 import checkConnection from './checkConnections';

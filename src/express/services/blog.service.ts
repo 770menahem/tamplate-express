@@ -1,4 +1,4 @@
-import Blog from '../../types/blogType';
+import Blog from '../../types/blog.type';
 import * as blogRepo from '../../mongo/repo/blog.repo';
 
 export const createBlog = async (blog: Blog) => {

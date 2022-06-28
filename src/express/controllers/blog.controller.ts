@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import Blog from '../../types/blogType';
+import Blog from '../../types/blog.type';
 import * as blogService from '../services/blog.service';
 
 export const createBlog = async (req: Request, res: Response) => {

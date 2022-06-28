@@ -1,6 +1,6 @@
 // test blogService with jest
 import * as blogService from '../src/express/services/blog.service';
-import Blog from '../src/types/blogType';
+import Blog from '../src/types/blog.type';
 import initializeMongo from '../src/mongo/initializeMongo';
 
 let createdBlog: Blog;

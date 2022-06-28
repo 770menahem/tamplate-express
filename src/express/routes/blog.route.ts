@@ -3,8 +3,11 @@ import { wrapController } from '../wraps';
 import * as blogController from '../controllers/blog.controller';
 import validateRequest from '../joi/joi';
 import { updateSchema, createSchema } from '../joi/validator.schema';
-
+import isAuth from '../../auth/auth';
 const router = express.Router();
+
+// authorize user
+router.use(isAuth);
 
 // get all
 router.get('', wrapController(blogController.getAllBlogs));
