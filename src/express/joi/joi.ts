@@ -1,6 +1,6 @@
 import { Request } from 'express';
 import * as Joi from 'joi';
-import { wrapValidator } from '../wraps';
+import { wrapValidator } from '../utils/wraps';
 
 const defaultValidationOptions: Joi.ValidationOptions = {
     abortEarly: false,

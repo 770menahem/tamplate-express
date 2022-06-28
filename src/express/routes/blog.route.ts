@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { wrapController } from '../wraps';
+import { wrapController } from '../utils/wraps';
 import * as blogController from '../controllers/blog.controller';
 import validateRequest from '../joi/joi';
 import { updateSchema, createSchema } from '../joi/validator/blog.schema';
