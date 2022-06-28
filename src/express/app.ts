@@ -3,8 +3,8 @@ import * as logger from 'morgan';
 import blogRouter from './routes/blog.route';
 import userRouter from './routes/user.route';
 import config from '../config/index';
-import { errorMiddleware } from './error';
-import checkConnection from './checkConnections';
+import { errorMiddleware } from './utils/error';
+import checkConnection from './utils/checkConnections';
 
 require('dotenv').config();
 
