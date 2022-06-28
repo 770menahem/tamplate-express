@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import config from '../config/index';
 import { encrypt } from '../utils/encrypt';
 
@@ -8,5 +8,5 @@ export const generateToken = (userId: string) => {
         userIdEnc: encrypt(userId),
     };
 
-    return jwt.sign(payload, config.keys.tokenKey, { expiresIn: '24h' });
+    return sign(payload, config.keys.tokenKey, { expiresIn: '24h' });
 };

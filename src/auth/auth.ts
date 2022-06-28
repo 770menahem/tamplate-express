@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 
 import { NextFunction, Request, Response } from 'express';
 import config from '../config/index';
@@ -8,7 +8,7 @@ import * as userService from '../express/services/user.service';
 const errorRes = (res: Response) => res.status(401).send('Unauthorized');
 
 type payloadType = {
-    userIdEnc: string;
+    token: string;
 };
 
 const isAuth = async (req: Request, res: Response, next: NextFunction) => {
@@ -19,11 +19,11 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
     try {
         if (!token) return errorRes(res);
 
-        const payload: payloadType = jwt.verify(token, config.keys.tokenKey) as payloadType;
+        const payload: payloadType = verify(token, config.keys.tokenKey) as payloadType;
 
-        if (!payload || !payload.userIdEnc) return errorRes(res);
+        if (!payload || !payload.token) return errorRes(res);
 
-        const userId = decrypt(payload.userIdEnc);
+        const userId = decrypt(payload.token);
 
         const user = await userService.getUserById(userId);
 

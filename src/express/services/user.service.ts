@@ -44,7 +44,7 @@ export const getUserByName = async (name: string) => {
 };
 
 // get a user by name and password
-export const getUserByNameAndPassword = async (name: string, password: string) => {
+export const signIn = async (name: string, password: string) => {
     const user = await userRepo.getUserByNameAndPassword(name, encrypt(password));
 
     if (!user) return null;

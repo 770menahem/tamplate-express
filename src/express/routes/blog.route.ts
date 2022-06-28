@@ -2,7 +2,7 @@ import * as express from 'express';
 import { wrapController } from '../wraps';
 import * as blogController from '../controllers/blog.controller';
 import validateRequest from '../joi/joi';
-import { updateSchema, createSchema } from '../joi/validator.schema';
+import { updateSchema, createSchema } from '../joi/validator/blog.schema';
 import isAuth from '../../auth/auth';
 const router = express.Router();
 

@@ -1,26 +1,28 @@
 import * as express from 'express';
 import { wrapController } from '../wraps';
 import * as userController from '../controllers/user.controller';
-import { updateSchema, createSchema } from '../joi/validator.schema';
+import { updateSchema, createSchema } from '../joi/validator/user.schema';
 import isAuth from '../../auth/auth';
 import validateRequest from '../joi/joi';
 
-const router = express.Router();
+const userRouter = express.Router();
 
 // sing in
-router.post('/signin', wrapController(userController.signIn));
+userRouter.post('/signin', wrapController(userController.signIn));
 
 // authorize user
-router.use(isAuth);
+userRouter.use(isAuth);
 
 // get user
-router.get('/:id', wrapController(userController.getUserById));
+userRouter.get('/:id', wrapController(userController.getUserById));
 
 // create
-router.post('', validateRequest(createSchema), wrapController(userController.createUser));
+userRouter.post('', validateRequest(createSchema), wrapController(userController.createUser));
 
 // update
-router.put('/:id', validateRequest(updateSchema), wrapController(userController.updateUser));
+userRouter.put('/:id', validateRequest(updateSchema), wrapController(userController.updateUser));
 
 // delete
-router.delete('/:id', wrapController(userController.deleteUser));
+userRouter.delete('/:id', wrapController(userController.deleteUser));
+
+export default userRouter;

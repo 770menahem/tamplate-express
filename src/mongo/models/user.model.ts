@@ -5,7 +5,7 @@ import User from '../../types/user.type';
 // user schema
 export const userSchema = new mongoose.Schema(
     {
-        _id: { type: mongoose.Schema.Types.ObjectId, required: false, auto: true, select: false },
+        _id: { type: mongoose.Schema.Types.ObjectId, required: false, auto: true, select: true },
         name: { type: String, required: true },
         password: { type: String, required: true },
         createdAt: { type: Date, required: false },

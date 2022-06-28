@@ -5,7 +5,7 @@ import * as userService from '../services/user.service';
 export const signIn = async (req: Request, res: Response) => {
     const name = req.body.name;
     const password = req.body.password;
-    const user = await userService.getUserByNameAndPassword(name, password);
+    const user = await userService.signIn(name, password);
 
     if (!user) res.status(404).send('user not fount');
     else res.send(user);
@@ -60,6 +60,6 @@ export const getUserByName = async (req: Request, res: Response) => {
 export const getUserByNameAndPassword = async (req: Request, res: Response) => {
     const name = req.params.name;
     const password = req.params.password;
-    const user = await userService.getUserByNameAndPassword(name, password);
+    const user = await userService.signIn(name, password);
     res.send(user);
 };

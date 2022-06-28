@@ -66,4 +66,11 @@ describe('UserService', () => {
         const user = await userService.getUserByName(name);
         expect(user).toBeDefined();
     });
+
+    test('get user by name and password', async () => {
+        const name = 'test user';
+        const password = 'test password';
+        const user = await userService.signIn(name, password);
+        expect(user).toBeDefined();
+    });
 });

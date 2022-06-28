@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as logger from 'morgan';
 import blogRouter from './routes/blog.route';
+import userRouter from './routes/user.route';
 import config from '../config/index';
 import { errorMiddleware } from './error';
 import checkConnection from './checkConnections';
@@ -20,6 +21,7 @@ export default () => {
 
     app.use(logger('dev'));
 
+    app.use('/users', userRouter);
     app.use('/blogs', blogRouter);
 
     app.use(errorMiddleware);

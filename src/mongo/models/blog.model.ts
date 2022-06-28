@@ -9,7 +9,7 @@ const { mongo } = config;
 
 const blogSchema = new mongoose.Schema<Blog>(
     {
-        _id: { type: mongoose.Schema.Types.ObjectId, required: false, auto: true, select: false },
+        _id: { type: mongoose.Schema.Types.ObjectId, required: false, auto: true, select: true },
         name: { type: String, required: true },
         description: { type: String, required: true },
         createdAt: { type: Date, required: false },
