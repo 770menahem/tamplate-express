@@ -1,54 +1,19 @@
+import { IBlogService } from './../../interfaces/blogService.interface';
 import { Request, Response } from 'express';
 import Blog from '../../types/blog.type';
-import { BlogService } from '../../types/blogService.type';
-// import * as blogService from '../services/blog.service';
+import { IBlogController } from '../../interfaces/blogController.interface';
+import { logInfo } from '../../log/logger';
+export class BlogController implements IBlogController {
+    private blogService: IBlogService;
 
-// export const createBlog = async (req: Request, res: Response) => {
-//     const newBlog = req.body;
-//     const blog: Blog = await blogService.createBlog(newBlog);
-//     if (!blog) res.status(404).send({ error: 'fail to create blog' });
-//     else res.send(blog);
-// };
-
-// export const updateBlog = async (req: Request, res: Response) => {
-//     const blogId = req.params.id;
-//     const description = req.body.description;
-//     const blog: Blog | null = await blogService.updateBlog(blogId, description);
-//     if (!blog) res.status(404).send({ error: 'fail to update blog' });
-//     else res.send(blog);
-// };
-
-// export const deleteBlog = async (req: Request, res: Response) => {
-//     const blogId = req.params.id;
-//     const blog: Blog | null = await blogService.deleteBlog(blogId);
-//     if (!blog) res.status(404).send({ error: 'fail to delete blog' });
-//     else res.send({ msg: 'Blog deleted successfully', blog });
-// };
-
-// export const getBlog = async (req: Request, res: Response) => {
-//     const blogId = req.params.id;
-//     const blog: Blog | null = await blogService.getBlog(blogId);
-//     if (!blog) res.status(404).send('blog not found');
-//     else res.send(blog);
-// };
-
-// export const getAllBlogs = async (_req: Request, res: Response) => {
-//     const blogs: Blog[] | null = await blogService.getAllBlogs();
-//     if (!blogs) res.status(404).send({ error: 'fail to get all blogs' });
-//     else res.send(blogs);
-// };
-
-export class BlogController {
-    private BlogService: BlogService;
-
-    constructor(BlogService: BlogService) {
-        console.log('BlogController created');
-        this.BlogService = BlogService;
+    constructor(blogService: IBlogService) {
+        logInfo('BlogController created');
+        this.blogService = blogService;
     }
 
     public createBlog = async (req: Request, res: Response) => {
         const newBlog = req.body;
-        const blog: Blog = await this.BlogService.createBlog(newBlog);
+        const blog: Blog = await this.blogService.createBlog(newBlog);
         if (!blog) res.status(404).send({ error: 'fail to create blog' });
         else res.send(blog);
     };
@@ -56,27 +21,27 @@ export class BlogController {
     public updateBlog = async (req: Request, res: Response) => {
         const blogId = req.params.id;
         const description = req.body.description;
-        const blog: Blog | null = await this.BlogService.updateBlog(blogId, description);
+        const blog: Blog | null = await this.blogService.updateBlog(blogId, description);
         if (!blog) res.status(404).send({ error: 'fail to update blog' });
         else res.send(blog);
     };
 
     public deleteBlog = async (req: Request, res: Response) => {
         const blogId = req.params.id;
-        const blog: Blog | null = await this.BlogService.deleteBlog(blogId);
+        const blog: Blog | null = await this.blogService.deleteBlog(blogId);
         if (!blog) res.status(404).send({ error: 'fail to delete blog' });
         else res.send({ msg: 'Blog deleted successfully', blog });
     };
 
     public getBlog = async (req: Request, res: Response) => {
         const blogId = req.params.id;
-        const blog: Blog | null = await this.BlogService.getBlog(blogId);
+        const blog: Blog | null = await this.blogService.getBlog(blogId);
         if (!blog) res.status(404).send('blog not found');
         else res.send(blog);
     };
 
     public getAllBlogs = async (_req: Request, res: Response) => {
-        const blogs: Blog[] | null = await this.BlogService.getAllBlogs();
+        const blogs: Blog[] | null = await this.blogService.getAllBlogs();
         if (!blogs) res.status(404).send({ error: 'fail to get all blogs' });
         else res.send(blogs);
     };

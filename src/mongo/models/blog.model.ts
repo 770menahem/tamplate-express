@@ -1,8 +1,5 @@
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-underscore-dangle */
 import * as mongoose from 'mongoose';
-import config from '../../config';
+import config from '../../config/config';
 import Blog from '../../types/blog.type';
 
 const { mongo } = config;

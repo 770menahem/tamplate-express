@@ -1,4 +1,5 @@
 import * as express from 'express';
+import { logError } from '../../log/logger';
 
 export class ServiceError extends Error {
     public code: number;
@@ -40,7 +41,5 @@ export const errorMiddleware = (error: Error, _req: express.Request, res: expres
         });
     }
 
-    console.log(error);
-
-    // next();
+    logError(JSON.stringify(error));
 };

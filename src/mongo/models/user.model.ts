@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-import config from '../../config';
+import config from '../../config/config';
 import User from '../../types/user.type';
 
-// user schema
 export const userSchema = new mongoose.Schema(
     {
         _id: { type: mongoose.Schema.Types.ObjectId, required: false, auto: true, select: true },
@@ -14,5 +13,4 @@ export const userSchema = new mongoose.Schema(
     { versionKey: false },
 );
 
-// user model
 export const userModel = mongoose.model<User>(config.mongo.userCollectionName, userSchema);

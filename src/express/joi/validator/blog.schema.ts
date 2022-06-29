@@ -1,6 +1,5 @@
 import * as Joi from 'joi';
 
-// blog schema
 export const createSchema = Joi.object({
     body: {
         title: Joi.string().required(),
@@ -8,7 +7,6 @@ export const createSchema = Joi.object({
     },
 });
 
-// update schema
 export const updateSchema = Joi.object({
     body: {
         description: Joi.string().required(),

@@ -1,28 +1,33 @@
-import { BlogController } from './../controllers/blog.controller';
 import * as express from 'express';
 import { wrapController } from '../utils/wraps';
 import validateRequest from '../joi/joi';
 import { updateSchema, createSchema } from '../joi/validator/blog.schema';
-import isAuth from '../../auth/auth';
-import { BlogService } from '../services/blog.service';
-import { BlogRepo } from '../../mongo/repo/blog.repo';
-import blogModel from '../../mongo/models/blog.model';
+import { IBlogController } from '../../interfaces/blogController.interface';
 
-const BlogCont = new BlogController(new BlogService(new BlogRepo(blogModel)));
-const router = express.Router();
+class BlogRouter {
+    public path: string = '/blogs';
+    public router = express.Router();
+    private blogController: IBlogController;
+    private auth: express.RequestHandler;
 
-// authorize user
-router.use(isAuth);
+    constructor(blogController: IBlogController, auth: express.RequestHandler) {
+        this.blogController = blogController;
+        this.auth = auth;
+        this.initializeRoutes();
+    }
 
-// get all
-router.get('', wrapController(BlogCont.getAllBlogs));
-// get by id
-router.get('/:id', wrapController(BlogCont.getBlog));
-// create
-router.post('', validateRequest(createSchema), wrapController(BlogCont.createBlog));
-// update
-router.put('/:id', validateRequest(updateSchema), wrapController(BlogCont.updateBlog));
-// delete
-router.delete('/:id', wrapController(BlogCont.deleteBlog));
+    public getRouter() {
+        return this.router;
+    }
 
-export default router;
+    public initializeRoutes() {
+        this.router.use(this.auth);
+        this.router.get('', wrapController(this.blogController.getAllBlogs));
+        this.router.get('/:id', wrapController(this.blogController.getBlog));
+        this.router.post('', validateRequest(createSchema), wrapController(this.blogController.createBlog));
+        this.router.put('/:id', validateRequest(updateSchema), wrapController(this.blogController.updateBlog));
+        this.router.delete('/:id', wrapController(this.blogController.deleteBlog));
+    }
+}
+
+export default BlogRouter;

@@ -1,28 +1,35 @@
-// test blogService with jest
-import * as blogService from '../src/express/services/blog.service';
+import { IBlogService } from './../src/interfaces/blogService.interface';
 import Blog from '../src/types/blog.type';
 import initializeMongo from '../src/mongo/initializeMongo';
+import { BlogRepo } from '../src/mongo/repo/blog.repo';
+import { BlogService } from './../src/express/services/blog.service';
+import blogModel from '../src/mongo/models/blog.model';
+import config from '../src/config';
 
+let blogService: IBlogService;
 let createdBlog: Blog;
+
 describe('blog service', () => {
     beforeAll(async () => {
-        await initializeMongo();
+        await initializeMongo(config.mongo.uriTest);
+        blogService = new BlogService(new BlogRepo(blogModel));
     });
 
     beforeEach(async () => {
+        await blogModel.deleteMany({});
         createdBlog = await blogService.createBlog({
-            name: 'test blog',
+            title: 'test blog',
             description: 'test blog description',
         });
     });
 
     test('create blog', async () => {
         const newBlog: Blog = {
-            name: 'test',
+            title: 'test',
             description: 'description',
         };
         createdBlog = await blogService.createBlog(newBlog);
-        expect(createdBlog?.name).toEqual(newBlog.name);
+        expect(createdBlog?.title).toEqual(newBlog.title);
         expect(createdBlog?.description).toEqual(newBlog.description);
     });
 
@@ -42,11 +49,11 @@ describe('blog service', () => {
 
     test('create blog', async () => {
         const newBlog: Blog = {
-            name: 'test',
+            title: 'test',
             description: 'test',
         };
         createdBlog = await blogService.createBlog(newBlog);
-        expect(createdBlog.name).toEqual('test');
+        expect(createdBlog.title).toEqual('test');
     });
 
     test('get blog', async () => {

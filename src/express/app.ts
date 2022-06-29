@@ -1,40 +1,52 @@
 import * as express from 'express';
 import * as logger from 'morgan';
-import blogRouter from './routes/blog.route';
-import userRouter from './routes/user.route';
-import config from '../config/index';
+import config from '../config/config';
 import { errorMiddleware } from './utils/error';
 import checkConnection from './utils/checkConnections';
+import { logInfo } from '../log/logger';
+import * as cors from 'cors';
+import IRouter from '../interfaces/router.interface';
 
 require('dotenv').config();
 
-const { port } = config.server || 6060;
+const { port } = config.server || 2770;
 
 /**
  * Initializing the express server
  */
-const app = express();
+class App {
+    public app: express.Application;
+    public routers: IRouter[];
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+    constructor(routers: IRouter[]) {
+        this.app = express();
+        this.config();
+        this.routers = routers;
+        this.start();
+    }
 
-app.use(logger('dev'));
+    private config(): void {
+        this.app.use(logger('dev'));
+        this.app.use(cors({ origin: '*', credentials: true }));
+        this.app.use(express.json());
+        this.app.use(express.urlencoded({ extended: true }));
+    }
 
-app.use('/users', userRouter);
-app.use('/blogs', blogRouter);
+    private initializeRouters(): void {
+        this.routers.forEach((router) => {
+            this.app.use(router.path, router.router);
+        });
+        this.app.use(errorMiddleware);
+    }
 
-app.use(errorMiddleware);
+    public async start(): Promise<void> {
+        if (checkConnection()) {
+            this.initializeRouters();
+            this.app.listen(port, () => logInfo(`Server started on port ${port}`));
+        } else {
+            logInfo('Server not started');
+        }
+    }
+}
 
-app.use('/isAlive', (_req, res) => {
-    res.send(checkConnection() ? 'OK' : 'Not OK');
-});
-
-app.use('*', (_req, res) => {
-    res.status(404).send('Invalid Route');
-});
-
-export default () => {
-    app.listen(port, () => {
-        console.log(`listening at http://localhost:${port}`);
-    });
-};
+export default App;

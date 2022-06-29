@@ -1,16 +1,21 @@
-// test blogService with jest
-import * as userService from '../src/express/services/user.service';
+import { IUserService } from './../src/interfaces/userService.interface';
 import User from '../src/types/user.type';
 import initializeMongo from '../src/mongo/initializeMongo';
+import { UserRepo } from '../src/mongo/repo/user.repo';
+import { userModel } from '../src/mongo/models/user.model';
+import { UserService } from './../src/express/services/user.service';
+import config from '../src/config';
 
 let createdUser: User;
-
+let userService: IUserService;
 describe('UserService', () => {
     beforeAll(async () => {
-        await initializeMongo();
+        await initializeMongo(config.mongo.uriTest);
+        userService = new UserService(new UserRepo(userModel));
     });
 
     beforeEach(async () => {
+        await userModel.deleteMany({});
         createdUser = await userService.createUser({
             name: 'test user',
             password: 'test password',
@@ -61,16 +66,10 @@ describe('UserService', () => {
         expect(users).toBeDefined();
     });
 
-    test('get user by name', async () => {
-        const name = 'test user';
-        const user = await userService.getUserByName(name);
-        expect(user).toBeDefined();
-    });
-
     test('get user by name and password', async () => {
         const name = 'test user';
         const password = 'test password';
-        const user = await userService.signIn(name, password);
+        const user = await userService.getUserByNameAndPassword(name, password);
         expect(user).toBeDefined();
     });
 });

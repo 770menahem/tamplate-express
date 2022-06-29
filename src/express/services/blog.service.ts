@@ -1,10 +1,12 @@
 import Blog from '../../types/blog.type';
-import { BlogRepo } from '../../types/blogRepo.type';
+import { IBlogRepo } from '../../interfaces/blogRepo.interface';
+import { IBlogService } from '../../interfaces/blogService.interface';
+import { logInfo } from '../../log/logger';
 
-export class BlogService {
-    private BlogRepo: BlogRepo;
-    constructor(blogRepo: BlogRepo) {
-        console.log('BlogService created');
+export class BlogService implements IBlogService {
+    private BlogRepo: IBlogRepo;
+    constructor(blogRepo: IBlogRepo) {
+        logInfo('BlogService created');
         this.BlogRepo = blogRepo;
     }
 

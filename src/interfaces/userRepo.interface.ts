@@ -1,6 +1,6 @@
-import User from './user.type';
+import User from '../types/user.type';
 
-export type UserRepo = {
+export interface IUserRepo {
     getUserById(userId: string): Promise<User | null>;
     getUserByNameAndPassword(name: string, arg1: string): Promise<User | null>;
     createUser(user: User): Promise<User>;
@@ -8,4 +8,4 @@ export type UserRepo = {
     deleteUser(userId: string): Promise<User | null>;
     getUser(userId: string): Promise<User | null>;
     getAllUsers(): Promise<User[] | null>;
-};
+}

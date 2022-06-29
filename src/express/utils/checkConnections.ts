@@ -1,6 +1,5 @@
-import menash from 'menashmq';
 import * as mongoose from 'mongoose';
 
 export default () => {
-    return menash.isReady && mongoose.connection.readyState === 1;
+    return mongoose.connection.readyState === 1;
 };

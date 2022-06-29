@@ -1,37 +1,33 @@
+import { IUserController } from './../../interfaces/userController.interface';
 import * as express from 'express';
 import { wrapController } from '../utils/wraps';
 import { updateSchema, createSchema } from '../joi/validator/user.schema';
-import isAuth from '../../auth/auth';
 import validateRequest from '../joi/joi';
-import { UserController } from '../controllers/user.controller';
-import { userModel } from '../../mongo/models/user.model';
-import { UserRepo } from '../../mongo/repo/user.repo';
-import { UserService } from '../services/user.service';
+class UserRouter {
+    public path: string = '/users';
+    public router = express.Router();
+    private userController: IUserController;
+    private auth: express.RequestHandler;
 
-export const UserS = new UserService(new UserRepo(userModel));
-const UserCont = new UserController(UserS);
+    constructor(userController: IUserController, auth: express.RequestHandler) {
+        this.userController = userController;
+        this.auth = auth;
+        this.initializeRoutes();
+    }
 
-const userRouter = express.Router();
+    public getRouter() {
+        return this.router;
+    }
 
-// sing in
-userRouter.post('/login', wrapController(UserCont.login));
+    public initializeRoutes() {
+        this.router.post('/login', wrapController(this.userController.login));
+        this.router.use(this.auth);
+        this.router.get('', wrapController(this.userController.getAllUsers));
+        this.router.get('/:userId', wrapController(this.userController.getUserById));
+        this.router.post('', validateRequest(createSchema), wrapController(this.userController.createUser));
+        this.router.put('/:userId', validateRequest(updateSchema), wrapController(this.userController.updateUser));
+        this.router.delete('/:userId', wrapController(this.userController.deleteUser));
+    }
+}
 
-// authorize user
-userRouter.use(isAuth);
-
-// get user
-userRouter.get('/:userId', wrapController(UserCont.getUserById));
-
-// getAll users
-userRouter.get('/', wrapController(UserCont.getAllUsers));
-
-// create
-userRouter.post('', validateRequest(createSchema), wrapController(UserCont.createUser));
-
-// update
-userRouter.put('/:userId', validateRequest(updateSchema), wrapController(UserCont.updateUser));
-
-// delete
-userRouter.delete('/:userId', wrapController(UserCont.deleteUser));
-
-export default userRouter;
+export default UserRouter;
