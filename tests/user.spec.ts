@@ -4,7 +4,7 @@ import initializeMongo from '../src/mongo/initializeMongo';
 import { UserRepo } from '../src/mongo/repo/user.repo';
 import { userModel } from '../src/mongo/models/user.model';
 import { UserService } from './../src/express/services/user.service';
-import config from '../src/config';
+import config from '../src/config/config';
 
 let createdUser: User;
 let userService: IUserService;

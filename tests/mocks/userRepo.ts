@@ -3,13 +3,17 @@ import { IUserRepo } from './../../src/interfaces/userRepo.interface';
 
 class UserRepoMock implements IUserRepo {
     public getUserById = async (userId: string): Promise<User | null> => {
+        if (userId === '1') return null;
+
         return {
             _id: userId,
             name: 'user',
         } as User;
     };
 
-    public getUserByNameAndPassword = async (name: string, password: string): Promise<User | null> => {
+    public getUserByNameAndPassword = async (name: string, _password: string): Promise<User | null> => {
+        if (name === '1') return null;
+
         return {
             _id: 'dcmi3245rfwr4',
             name,
@@ -21,6 +25,8 @@ class UserRepoMock implements IUserRepo {
     };
 
     public updateUser = async (userId: string, name: string) => {
+        if (userId === '1') return null;
+
         return {
             _id: userId,
             name,
@@ -28,6 +34,8 @@ class UserRepoMock implements IUserRepo {
     };
 
     public deleteUser = async (userId: string) => {
+        if (userId === '1') return null;
+
         return {
             _id: userId,
             name: 'deleted user',
@@ -35,6 +43,8 @@ class UserRepoMock implements IUserRepo {
     };
 
     public getUser = async (userId: string) => {
+        if (userId === '1') return null;
+
         return {
             _id: userId,
             name: 'user',
@@ -50,3 +60,5 @@ class UserRepoMock implements IUserRepo {
         ] as User[];
     };
 }
+
+export default UserRepoMock;

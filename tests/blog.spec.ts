@@ -4,7 +4,7 @@ import initializeMongo from '../src/mongo/initializeMongo';
 import { BlogRepo } from '../src/mongo/repo/blog.repo';
 import { BlogService } from './../src/express/services/blog.service';
 import blogModel from '../src/mongo/models/blog.model';
-import config from '../src/config';
+import config from '../src/config/config';
 
 let blogService: IBlogService;
 let createdBlog: Blog;
@@ -47,19 +47,15 @@ describe('blog service', () => {
         expect(blog).toEqual(null);
     });
 
-    test('create blog', async () => {
-        const newBlog: Blog = {
-            title: 'test',
-            description: 'test',
-        };
-        createdBlog = await blogService.createBlog(newBlog);
-        expect(createdBlog.title).toEqual('test');
-    });
-
     test('get blog', async () => {
         const blogId = createdBlog._id!;
         const blog = await blogService.getBlog(blogId);
         expect(blog).toBeDefined();
+    });
+    test('fail to get blog', async () => {
+        const blogId = '1';
+        const blog = await blogService.getBlog(blogId);
+        expect(blog).toBeFalsy();
     });
 
     test('get all blogs', async () => {

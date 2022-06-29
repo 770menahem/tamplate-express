@@ -7,6 +7,7 @@ class BlogRepoMock implements IBlogRepo {
     };
 
     public updateBlog = async (blogId: string, description: string) => {
+        if (blogId === '1') return null;
         return {
             _id: blogId,
             description,
@@ -14,6 +15,8 @@ class BlogRepoMock implements IBlogRepo {
     };
 
     public deleteBlog = async (blogId: string) => {
+        if (blogId === '1') return null;
+
         return {
             _id: blogId,
             description: 'deleted blog',
@@ -21,6 +24,8 @@ class BlogRepoMock implements IBlogRepo {
     };
 
     public getBlog = async (blogId: string) => {
+        if (blogId === '1') return null;
+
         return {
             _id: blogId,
             description: 'blog',
