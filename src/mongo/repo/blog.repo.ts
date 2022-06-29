@@ -1,27 +1,36 @@
+import mongoose from 'mongoose';
 import Blog from '../../types/blog.type';
-import blogModel from '../models/blog.model';
 
-export const createBlog = async (blog: Blog): Promise<Blog> => {
-    const newBlog = await blogModel.create(blog);
-    return newBlog;
-};
+export class BlogRepo {
+    private BlogModel: mongoose.Model<Blog>;
 
-export const updateBlog = async (blogId: string, description: string): Promise<Blog | null> => {
-    const blog = await blogModel.findByIdAndUpdate(blogId, { description }, { new: true });
-    return blog;
-};
+    constructor(blogModel: mongoose.Model<Blog>) {
+        console.log('BlogRepo created');
+        this.BlogModel = blogModel;
+    }
 
-export const deleteBlog = async (blogId: string): Promise<Blog | null> => {
-    const blog = await blogModel.findByIdAndDelete(blogId);
-    return blog;
-};
+    public createBlog = async (blog: Blog): Promise<Blog> => {
+        const newBlog = await this.BlogModel.create(blog);
+        return newBlog;
+    };
 
-export const getBlog = async (blogId: string): Promise<Blog | null> => {
-    const blog = await blogModel.findById(blogId);
-    return blog;
-};
+    public updateBlog = async (blogId: string, description: string): Promise<Blog | null> => {
+        const blog = await this.BlogModel.findByIdAndUpdate(blogId, { description }, { new: true });
+        return blog;
+    };
 
-export const getAllBlogs = async (): Promise<Blog[] | null> => {
-    const blogs = await blogModel.find({});
-    return blogs;
-};
+    public deleteBlog = async (blogId: string): Promise<Blog | null> => {
+        const blog = await this.BlogModel.findByIdAndDelete(blogId);
+        return blog;
+    };
+
+    public getBlog = async (blogId: string): Promise<Blog | null> => {
+        const blog = await this.BlogModel.findById(blogId);
+        return blog;
+    };
+
+    public getAllBlogs = async (): Promise<Blog[] | null> => {
+        const blogs = await this.BlogModel.find({});
+        return blogs;
+    };
+}

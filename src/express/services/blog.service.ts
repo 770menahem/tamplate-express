@@ -1,27 +1,35 @@
 import Blog from '../../types/blog.type';
-import * as blogRepo from '../../mongo/repo/blog.repo';
+import { BlogRepo } from '../../types/blogRepo.type';
 
-export const createBlog = async (blog: Blog) => {
-    const newBlog = await blogRepo.createBlog(blog);
-    return newBlog;
-};
+export class BlogService {
+    private BlogRepo: BlogRepo;
+    constructor(blogRepo: BlogRepo) {
+        console.log('BlogService created');
+        this.BlogRepo = blogRepo;
+    }
 
-export const updateBlog = async (blogId: string, description: string) => {
-    const blog = await blogRepo.updateBlog(blogId, description);
-    return blog;
-};
+    public createBlog = async (blog: Blog) => {
+        const newBlog = await this.BlogRepo.createBlog(blog);
+        return newBlog;
+    };
 
-export const deleteBlog = async (blogId: string) => {
-    const blog = await blogRepo.deleteBlog(blogId);
-    return blog;
-};
+    public updateBlog = async (blogId: string, description: string) => {
+        const blog = await this.BlogRepo.updateBlog(blogId, description);
+        return blog;
+    };
 
-export const getBlog = async (blogId: string) => {
-    const blog = await blogRepo.getBlog(blogId);
-    return blog;
-};
+    public deleteBlog = async (blogId: string) => {
+        const blog = await this.BlogRepo.deleteBlog(blogId);
+        return blog;
+    };
 
-export const getAllBlogs = async () => {
-    const blogs = await blogRepo.getAllBlogs();
-    return blogs;
-};
+    public getBlog = async (blogId: string) => {
+        const blog = await this.BlogRepo.getBlog(blogId);
+        return blog;
+    };
+
+    public getAllBlogs = async () => {
+        const blogs = await this.BlogRepo.getAllBlogs();
+        return blogs;
+    };
+}

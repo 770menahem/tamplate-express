@@ -3,7 +3,7 @@ import { verify } from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
 import config from '../config/index';
 import { decrypt } from '../utils/encrypt';
-import * as userService from '../express/services/user.service';
+import { UserS } from '../express/routes/user.route';
 
 const errorRes = (res: Response) => res.status(401).send({ error: 'unauthorized', status: 401 });
 
@@ -25,7 +25,7 @@ const isAuth = async (req: Request, res: Response, next: NextFunction) => {
 
         const userId = decrypt(payload.userIdEnc);
 
-        const user = await userService.getUserById(userId);
+        const user = await UserS.getUserById(userId);
 
         if (!user) return errorRes(res);
 
