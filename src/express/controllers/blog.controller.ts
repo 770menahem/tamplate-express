@@ -19,7 +19,7 @@ export class BlogController implements IBlogController {
     };
 
     public updateBlog = async (req: Request, res: Response) => {
-        const blogId = req.params.id;
+        const blogId = req.params.blogId;
         const description = req.body.description;
         const blog: Blog | null = await this.blogService.updateBlog(blogId, description);
         if (!blog) res.status(404).send({ error: 'fail to update blog' });
@@ -27,14 +27,14 @@ export class BlogController implements IBlogController {
     };
 
     public deleteBlog = async (req: Request, res: Response) => {
-        const blogId = req.params.id;
+        const blogId = req.params.blogId;
         const blog: Blog | null = await this.blogService.deleteBlog(blogId);
         if (!blog) res.status(404).send({ error: 'fail to delete blog' });
         else res.send({ msg: 'Blog deleted successfully', blog });
     };
 
     public getBlog = async (req: Request, res: Response) => {
-        const blogId = req.params.id;
+        const blogId = req.params.blogId;
         const blog: Blog | null = await this.blogService.getBlog(blogId);
         if (!blog) res.status(404).send('blog not found');
         else res.send(blog);

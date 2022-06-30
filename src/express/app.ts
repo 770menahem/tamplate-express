@@ -16,11 +16,11 @@ class App {
     private routers: IRouter[];
 
     constructor(port: number, routers: IRouter[]) {
+        this.port = port || 1770;
+        this.routers = routers;
         this.app = express();
         this.config();
-        this.routers = routers;
         this.start();
-        this.port = port || 1770;
     }
 
     public getApp(): express.Application {

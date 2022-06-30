@@ -115,7 +115,7 @@
 							"variable": [
 								{
 									"key": "userId",
-									"value": "62bb107c260074e39cb9d539"
+									"value": "{{userId}}"
 								}
 							]
 						}
@@ -233,7 +233,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\":\"1\",\n    \"description\":\"ab\"\n}",
+							"raw": "{\n    \"title\":\"2\",\n    \"description\":\"ab\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -345,7 +345,7 @@
 							"variable": [
 								{
 									"key": "blogId",
-									"value": "62bb133f3b074758fa4adea3"
+									"value": "62bd29f4ce0bea91b529cdde"
 								}
 							]
 						}
