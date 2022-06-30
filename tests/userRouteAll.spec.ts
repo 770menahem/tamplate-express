@@ -1,24 +1,32 @@
 import App from '../src/express/app';
 import AuthMock from './mocks/auth';
-import UserControllerMock from './mocks/userController';
+import { UserController } from '../src/express/controllers/user.controller';
+import { UserService } from '../src/express/services/user.service';
 import UserRouter from '../src/express/routes/user.route';
 import * as request from 'supertest';
 import { Application } from 'express';
 import { verify } from 'jsonwebtoken';
 import config from '../src/config/config';
+import UserRepoMock from './mocks/userRepo';
+import { encrypt } from '../src/utils/encrypt';
 
 let app: Application;
 let token: string;
+const idToDelete = 'to_delete';
 describe('User routes', () => {
     beforeAll(async () => {
         const auth = new AuthMock(async (token) => {
             const payload = verify(token, config.keys.tokenKey);
             return payload.toString();
         });
-        const userController = new UserControllerMock();
+        const repo = new UserRepoMock();
+        repo.createUser({ _id: '1', name: 'test user', password: encrypt('test') });
+        repo.createUser({ _id: idToDelete, name: 'test user', password: encrypt('test') });
+
+        const userController = new UserController(new UserService(repo));
         const userRouter = new UserRouter(userController, auth.check);
 
-        app = new App(3770, [userRouter]).getApp();
+        app = new App(5770, [userRouter]).getApp();
     });
 
     test('POST /users/login', async () => {
@@ -43,8 +51,7 @@ describe('User routes', () => {
     test('GET /users', async () => {
         const response = await request(app).get('/users').set('Authorization', token);
         expect(response.status).toBe(200);
-        expect(response.body.length).toEqual(2);
-        expect(response.body[0]).toEqual({ _id: '1', name: 'test user' });
+        expect(Array.isArray(response.body)).toBeTruthy();
     });
 
     test('GET /users/:id', async () => {
@@ -90,10 +97,9 @@ describe('User routes', () => {
     });
 
     test('DELETE /users/:id', async () => {
-        const userId = 'to delete';
-        const response = await request(app).delete(`/users/${userId}`).set('Authorization', token);
+        const response = await request(app).delete(`/users/${idToDelete}`).set('Authorization', token);
         expect(response.status).toBe(200);
-        const userResp = await request(app).get(`/users/${userId}`).set('Authorization', token);
+        const userResp = await request(app).get(`/users/${idToDelete}`).set('Authorization', token);
         expect(userResp.status).toBe(404);
     });
 

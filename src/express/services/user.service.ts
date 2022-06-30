@@ -32,7 +32,7 @@ export class UserService implements IUserService {
     public createUser = async (user: User) => {
         const newUser = await this.UserRepo.createUser({
             name: user.name,
-            password: encrypt(user.password),
+            password: encrypt(user.password!),
         });
 
         return newUser;

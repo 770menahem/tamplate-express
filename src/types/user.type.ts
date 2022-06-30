@@ -1,7 +1,7 @@
 type User = {
     _id?: string;
     name: string;
-    password: string;
+    password?: string;
     createdAt?: Date;
     updatedAt?: Date;
 };

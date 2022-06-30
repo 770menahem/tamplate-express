@@ -23,7 +23,7 @@ class UserControllerMock implements IUserController {
         if (user) {
             res.json({ user, token: generateToken('token') });
         } else {
-            res.status(401).json({ message: 'Invalid credentials' });
+            res.status(404).send({ message: 'fail to login' });
         }
     };
 
@@ -39,7 +39,7 @@ class UserControllerMock implements IUserController {
             user.name = req.body.name;
             res.json(user);
         } else {
-            res.status(404).json({ message: 'User not found' });
+            res.status(404).send({ message: 'fail to update user' });
         }
     };
 
@@ -49,7 +49,7 @@ class UserControllerMock implements IUserController {
             this.users = this.users.filter((u) => u._id !== req.params.userId);
             res.json(user);
         } else {
-            res.status(404).json({ message: 'User not found' });
+            res.status(404).send({ message: 'fail to delete user' });
         }
     };
 
@@ -58,7 +58,7 @@ class UserControllerMock implements IUserController {
         if (user) {
             res.json({ _id: user._id, name: user.name });
         } else {
-            res.status(404).json({ message: 'User not found' });
+            res.status(404).send({ message: 'User not found' });
         }
     };
 
@@ -71,7 +71,7 @@ class UserControllerMock implements IUserController {
         if (user) {
             res.json({ _id: user._id, name: user.name });
         } else {
-            res.status(404).json({ message: 'User not found' });
+            res.status(404).send({ message: 'User not found' });
         }
     };
 
@@ -80,7 +80,7 @@ class UserControllerMock implements IUserController {
         if (user) {
             res.json({ _id: user._id, name: user.name });
         } else {
-            res.status(404).json({ message: 'User not found' });
+            res.status(404).send({ message: 'User not found' });
         }
     };
 }
