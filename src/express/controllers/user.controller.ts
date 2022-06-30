@@ -35,8 +35,7 @@ export class UserController implements IUserController {
 
         const user: User | null = await this.UserService.updateUser(userId, name);
         if (!user) res.status(404).send({ message: 'fail to update user' });
-
-        res.send(user);
+        else res.send(user);
     };
 
     public deleteUser = async (req: Request, res: Response) => {
