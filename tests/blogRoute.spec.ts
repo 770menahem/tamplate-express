@@ -6,6 +6,9 @@ import BlogControllerMock from './mocks/blogController';
 import BlogRouter from '../src/express/routes/blog.route';
 
 let app: Application;
+
+jest.setTimeout(60000);
+
 describe('Blog Routes', () => {
     beforeAll(async () => {
         const auth = new AuthMock(async (token) => token);

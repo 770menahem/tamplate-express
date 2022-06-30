@@ -1,15 +1,14 @@
 import { IBlogService } from '../src/interfaces/blogService.interface';
 import Blog from '../src/types/blog.type';
-import initializeMongo from '../src/mongo/initializeMongo';
 import { BlogService } from '../src/express/services/blog.service';
-import config from '../src/config/config';
 import BlogRepoMock from './mocks/blogRepo';
 
 let blogService: IBlogService;
 
+jest.setTimeout(60000);
+
 describe('blog service', () => {
     beforeAll(async () => {
-        await initializeMongo(config.mongo.uriTest);
         blogService = new BlogService(new BlogRepoMock());
     });
 

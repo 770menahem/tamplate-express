@@ -9,6 +9,9 @@ import config from '../src/config/config';
 
 let app: Application;
 let token: string;
+
+jest.setTimeout(60000);
+
 describe('User routes', () => {
     beforeAll(async () => {
         const auth = new AuthMock(async (token) => {

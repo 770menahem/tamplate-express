@@ -1,14 +1,14 @@
 import { IUserService } from '../src/interfaces/userService.interface';
 import User from '../src/types/user.type';
-import initializeMongo from '../src/mongo/initializeMongo';
 import { UserService } from '../src/express/services/user.service';
-import config from '../src/config/config';
 import UserRepoMock from './mocks/userRepo';
 
 let userService: IUserService;
+
+jest.setTimeout(60000);
+
 describe('UserService', () => {
     beforeAll(async () => {
-        await initializeMongo(config.mongo.uriTest);
         userService = new UserService(new UserRepoMock());
     });
 

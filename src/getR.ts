@@ -1,5 +1,5 @@
 import { writeFileSync } from 'fs';
-import { app } from './express/app';
+import app from './express/app';
 
 (async () => {
     // console.log(

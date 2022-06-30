@@ -11,12 +11,12 @@ class UserRepoMock implements IUserRepo {
     ];
     public getUserById = async (userId: string): Promise<User | null> => {
         const user = this.users.find((u) => u._id === userId);
-        return user ? { _id: user._id, name: user.name } : null;
+        return user ? ({ _id: user._id, name: user.name } as User) : null;
     };
 
     public getUserByNameAndPassword = async (name: string, password: string): Promise<User | null> => {
         const user = this.users.find((u) => u.name === name && u.password === password);
-        return user ? { _id: user._id, name: user.name } : null;
+        return user ? ({ _id: user._id, name: user.name } as User) : null;
     };
 
     public createUser = async (user: User) => {
@@ -28,7 +28,7 @@ class UserRepoMock implements IUserRepo {
         const user: User | undefined = this.users.find((u) => u._id === userId);
         if (user) {
             user.name = name;
-            return { _id: user._id, name: user.name };
+            return { _id: user._id, name: user.name } as User;
         }
         return null;
     };
@@ -37,18 +37,18 @@ class UserRepoMock implements IUserRepo {
         const user = this.users.find((u) => u._id === userId);
         if (user) {
             this.users = this.users.filter((u) => u._id !== userId);
-            return { _id: user._id, name: user.name };
+            return { _id: user._id, name: user.name } as User;
         }
         return null;
     };
 
     public getUser = async (userId: string) => {
         const user = this.users.find((u) => u._id === userId);
-        return user ? { _id: user._id, name: user.name } : null;
+        return user ? ({ _id: user._id, name: user.name } as User) : null;
     };
 
     public getAllUsers = async () => {
-        return this.users.map((user) => ({ _id: user._id, name: user.name }));
+        return this.users.map((user) => ({ _id: user._id, name: user.name } as User));
     };
 }
 
