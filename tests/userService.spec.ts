@@ -1,29 +1,20 @@
-import { IUserService } from './../src/interfaces/userService.interface';
+import { IUserService } from '../src/interfaces/userService.interface';
 import User from '../src/types/user.type';
 import initializeMongo from '../src/mongo/initializeMongo';
-import { UserRepo } from '../src/mongo/repo/user.repo';
-import { userModel } from '../src/mongo/models/user.model';
-import { UserService } from './../src/express/services/user.service';
+import { UserService } from '../src/express/services/user.service';
 import config from '../src/config/config';
+import UserRepoMock from './mocks/userRepo';
 
-let createdUser: User;
 let userService: IUserService;
 describe('UserService', () => {
     beforeAll(async () => {
         await initializeMongo(config.mongo.uriTest);
-        userService = new UserService(new UserRepo(userModel));
-    });
-
-    beforeEach(async () => {
-        await userModel.deleteMany({});
-        createdUser = await userService.createUser({
-            name: 'test user',
-            password: 'test password',
-        });
+        userService = new UserService(new UserRepoMock());
     });
 
     test('create user', async () => {
         const newUser: User = {
+            _id: '2',
             name: 'test',
             password: 'test',
         };
@@ -33,30 +24,21 @@ describe('UserService', () => {
     });
 
     test('update user', async () => {
-        const userId = createdUser._id!;
+        const userId = '1';
         const name = 'test update';
         const user = await userService.updateUser(userId, name);
         expect(user!.name).toEqual('test update');
     });
 
     test('delete user', async () => {
-        const userId = createdUser._id!;
+        const userId = '2';
         await userService.deleteUser(userId);
         const user = await userService.getUserById(userId);
         expect(user).toEqual(null);
     });
 
-    test('create user', async () => {
-        const newUser: User = {
-            name: 'test',
-            password: 'test',
-        };
-        const sign = await userService.createUser(newUser);
-        expect(sign!.name).toEqual('test');
-    });
-
     test('get user', async () => {
-        const userId = createdUser._id!;
+        const userId = '1';
         const user = await userService.getUserById(userId);
         expect(user).toBeDefined();
     });
@@ -68,8 +50,22 @@ describe('UserService', () => {
 
     test('get user by name and password', async () => {
         const name = 'test user';
-        const password = 'test password';
+        const password = 'test';
         const user = await userService.getUserByNameAndPassword(name, password);
+        expect(user).toBeDefined();
+    });
+
+    test('login', async () => {
+        const name = 'test user';
+        const password = 'test';
+        const user = await userService.login(name, password);
+        expect(user).toBeDefined();
+    });
+
+    test('fail to login', async () => {
+        const name = 'test not user';
+        const password = 'test';
+        const user = await userService.login(name, password);
         expect(user).toBeDefined();
     });
 });

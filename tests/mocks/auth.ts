@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from 'express';
-import config from '../../config/config';
-import IAuth from '../../interfaces/auth.interface';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
+import IAuth from './../../src/interfaces/auth.interface';
 
-class Auth implements IAuth {
+class AuthMock implements IAuth {
     public checkAuth: (token: string) => Promise<string | null>;
 
     constructor(checkAuth: (token: string) => Promise<string | null>) {
@@ -10,10 +9,8 @@ class Auth implements IAuth {
     }
 
     public async check(req: Request, res: Response, next: NextFunction): Promise<void> {
-        if (!config.server.needAuth) return next();
-
         const token: string = req.header('Authorization') as string;
-        const userId = await this.checkAuth(token);
+        const userId = token;
         if (!userId) {
             res.status(401).send({ error: 'unauthorized', status: 401 });
         } else {
@@ -23,4 +20,4 @@ class Auth implements IAuth {
     }
 }
 
-export default Auth;
+export default AuthMock;

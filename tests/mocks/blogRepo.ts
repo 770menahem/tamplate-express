@@ -2,43 +2,45 @@ import { IBlogRepo } from '../../src/interfaces/blogRepo.interface';
 import Blog from '../../src/types/blog.type';
 
 class BlogRepoMock implements IBlogRepo {
+    private blogs: Blog[] = [
+        {
+            _id: '1',
+            title: 'test blog',
+            description: 'test blog description',
+        },
+    ];
+
     public createBlog = async (blog: Blog) => {
+        this.blogs.push(blog);
         return blog;
     };
 
     public updateBlog = async (blogId: string, description: string) => {
-        if (blogId === '1') return null;
-        return {
-            _id: blogId,
-            description,
-        } as Blog;
+        const blog = this.blogs.find((b) => b._id === blogId);
+        if (blog) {
+            blog.description = description;
+            return blog;
+        }
+        return null;
     };
 
     public deleteBlog = async (blogId: string) => {
-        if (blogId === '1') return null;
-
-        return {
-            _id: blogId,
-            description: 'deleted blog',
-        } as Blog;
+        const blog = this.blogs.find((b) => b._id === blogId);
+        if (blog) {
+            this.blogs = this.blogs.filter((b) => b._id !== blogId);
+            return blog;
+        }
+        return null;
     };
 
     public getBlog = async (blogId: string) => {
-        if (blogId === '1') return null;
+        const blog = this.blogs.find((b) => b._id === blogId);
 
-        return {
-            _id: blogId,
-            description: 'blog',
-        } as Blog;
+        return blog || null;
     };
 
     public getAllBlogs = async () => {
-        return [
-            {
-                _id: '1',
-                description: 'test',
-            },
-        ] as Blog[];
+        return this.blogs;
     };
 }
 

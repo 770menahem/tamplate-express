@@ -1,28 +1,30 @@
 import * as express from 'express';
 import * as logger from 'morgan';
-import config from '../config/config';
 import { errorMiddleware } from './utils/error';
-import checkConnection from './utils/checkConnections';
 import { logInfo } from '../log/logger';
 import * as cors from 'cors';
 import IRouter from '../interfaces/router.interface';
 
 require('dotenv').config();
 
-const { port } = config.server || 2770;
-
 /**
  * Initializing the express server
  */
 class App {
-    public app: express.Application;
-    public routers: IRouter[];
+    private port: number;
+    private app: express.Application;
+    private routers: IRouter[];
 
-    constructor(routers: IRouter[]) {
+    constructor(port: number, routers: IRouter[]) {
         this.app = express();
         this.config();
         this.routers = routers;
         this.start();
+        this.port = port || 1770;
+    }
+
+    public getApp(): express.Application {
+        return this.app;
     }
 
     private config(): void {
@@ -40,12 +42,8 @@ class App {
     }
 
     public async start(): Promise<void> {
-        if (checkConnection()) {
-            this.initializeRouters();
-            this.app.listen(port, () => logInfo(`Server started on port ${port}`));
-        } else {
-            logInfo('Server not started');
-        }
+        this.initializeRouters();
+        this.app.listen(this.port, () => logInfo(`Server started on port ${this.port}`));
     }
 }
 

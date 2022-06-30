@@ -23,10 +23,10 @@ class BlogRouter {
     public initializeRoutes() {
         this.router.use(this.auth);
         this.router.get('', wrapController(this.blogController.getAllBlogs));
-        this.router.get('/:id', wrapController(this.blogController.getBlog));
+        this.router.get('/:blogId', wrapController(this.blogController.getBlog));
         this.router.post('', validateRequest(createSchema), wrapController(this.blogController.createBlog));
-        this.router.put('/:id', validateRequest(updateSchema), wrapController(this.blogController.updateBlog));
-        this.router.delete('/:id', wrapController(this.blogController.deleteBlog));
+        this.router.put('/:blogId', validateRequest(updateSchema), wrapController(this.blogController.updateBlog));
+        this.router.delete('/:blogId', wrapController(this.blogController.deleteBlog));
     }
 }
 

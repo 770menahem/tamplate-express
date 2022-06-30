@@ -36,7 +36,8 @@ const main = async () => {
     const userRouter = new UserRouter(userController, auth.check);
     const blogRouter = new BlogRouter(blogController, auth.check);
 
-    new App([userRouter, blogRouter]);
+    const port = config.server.port || 2770;
+    new App(port, [userRouter, blogRouter]);
 };
 
 main().catch((err) => {
