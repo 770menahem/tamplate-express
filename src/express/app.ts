@@ -4,6 +4,7 @@ import { errorMiddleware } from './utils/error';
 import { logInfo } from '../log/logger';
 import * as cors from 'cors';
 import IRouter from '../interfaces/router.interface';
+import { Server } from 'http';
 
 require('dotenv').config();
 
@@ -14,6 +15,7 @@ class App {
     private port: number;
     private app: express.Application;
     private routers: IRouter[];
+    private server: Server | undefined;
 
     constructor(port: number, routers: IRouter[]) {
         this.port = port || 1770;
@@ -43,7 +45,11 @@ class App {
 
     public async start(): Promise<void> {
         this.initializeRouters();
-        this.app.listen(this.port, () => logInfo(`Server started on port ${this.port}`));
+        this.server = this.app.listen(this.port, () => logInfo(`Server started on port ${this.port}`));
+    }
+
+    public async stop(): Promise<void> {
+        this.server?.close();
     }
 }
 
