@@ -7,6 +7,7 @@ class BlogRepoMock implements IBlogRepo {
             _id: '1',
             title: 'test blog',
             description: 'test blog description',
+            author: 'test author',
         },
     ];
 
@@ -41,6 +42,12 @@ class BlogRepoMock implements IBlogRepo {
 
     public getAllBlogs = async () => {
         return this.blogs;
+    };
+
+    public getBlogsByAuthor = async (userName: string) => {
+        const blogs = this.blogs.filter((b) => b.author === userName);
+
+        return blogs || null;
     };
 }
 

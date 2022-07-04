@@ -27,6 +27,7 @@ class BlogRouter {
         this.router.post('', validateRequest(createSchema), wrapController(this.blogController.createBlog));
         this.router.put('/:blogId', validateRequest(updateSchema), wrapController(this.blogController.updateBlog));
         this.router.delete('/:blogId', wrapController(this.blogController.deleteBlog));
+        this.router.get('/author/:userName', wrapController(this.blogController.getBlogsByAuthor));
     }
 }
 

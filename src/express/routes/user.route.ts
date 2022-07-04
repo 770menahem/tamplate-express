@@ -21,8 +21,8 @@ class UserRouter {
 
     public initializeRoutes() {
         this.router.post('/login', wrapController(this.userController.login));
-        this.router.use(this.auth);
         this.router.post('', validateRequest(createSchema), wrapController(this.userController.createUser));
+        this.router.use(this.auth);
         this.router.get('', wrapController(this.userController.getAllUsers));
         this.router.get('/:userId', wrapController(this.userController.getUserById));
         this.router.put('/:userId', validateRequest(updateSchema), wrapController(this.userController.updateUser));
