@@ -25,13 +25,13 @@ describe('Blog Routes', () => {
         const response = await request(server.getApp()).get('/blogs').set('Authorization', 'token');
         expect(response.status).toBe(200);
         expect(response.body.length).toEqual(2);
-        expect(response.body[0]).toEqual({ _id: '1', title: 'test blog', description: 'test blog content' });
+        expect(response.body[0]).toEqual({ _id: '1', title: 'test blog', description: 'test blog content', author: 'test author' });
     });
 
     test('GET /blogs/:id', async () => {
         const response = await request(server.getApp()).get('/blogs/1').set('Authorization', 'token');
         expect(response.status).toBe(200);
-        expect(response.body).toEqual({ _id: '1', title: 'test blog', description: 'test blog content' });
+        expect(response.body).toEqual({ _id: '1', title: 'test blog', description: 'test blog content', author: 'test author' });
     });
 
     test('GET /blogs/:id not exist i', async () => {
@@ -88,5 +88,11 @@ describe('Blog Routes', () => {
         const response = await request(server.getApp()).delete('/blogs/6').set('Authorization', 'token');
         expect(response.status).toBe(404);
         expect(response.body.message).toBe('Blog not found');
+    });
+
+    test('GET /blogs/author/:userName', async () => {
+        const response = await request(server.getApp()).get('/blogs/author/test author').set('Authorization', 'token');
+        expect(response.status).toBe(200);
+        expect(response.body.length).toEqual(1);
     });
 });

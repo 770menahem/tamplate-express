@@ -34,4 +34,9 @@ export class BlogService implements IBlogService {
         const blogs = await this.BlogRepo.getAllBlogs();
         return blogs;
     };
+
+    public getBlogsByAuthor = async (userName: string) => {
+        const blogs = await this.BlogRepo.getBlogsByAuthor(userName);
+        return blogs;
+    };
 }

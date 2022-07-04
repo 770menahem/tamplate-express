@@ -35,4 +35,25 @@ export class BlogRepo implements IBlogRepo {
         const blogs = await this.BlogModel.find({});
         return blogs;
     };
+
+    public getBlogsByAuthor = async (userName: string): Promise<Blog[] | null> => {
+        try {
+            const blogs = await this.BlogModel.aggregate([
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'author',
+                        foreignField: '_id',
+                        as: 'author',
+                    },
+                },
+                { $match: { 'author.name': userName } },
+                { $unwind: '$author' },
+            ]);
+
+            return blogs;
+        } catch (error) {
+            return null;
+        }
+    };
 }

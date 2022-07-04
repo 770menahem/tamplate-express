@@ -17,6 +17,7 @@ describe('blog service', () => {
             _id: '2',
             title: 'test',
             description: 'description',
+            author: 'test author',
         };
         const createdBlog = await blogService.createBlog(newBlog);
         expect(createdBlog?.title).toEqual(newBlog.title);
@@ -50,6 +51,12 @@ describe('blog service', () => {
 
     test('get all blogs', async () => {
         const blogs = await blogService.getAllBlogs();
+        expect(blogs).toBeDefined();
+    });
+
+    test('get blogs by author', async () => {
+        const userName = 'test author';
+        const blogs = await blogService.getBlogsByAuthor(userName);
         expect(blogs).toBeDefined();
     });
 });

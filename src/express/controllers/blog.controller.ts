@@ -45,4 +45,11 @@ export class BlogController implements IBlogController {
         if (!blogs) res.status(404).send({ error: 'fail to get all blogs' });
         else res.send(blogs);
     };
+
+    public getBlogsByAuthor = async (req: Request, res: Response) => {
+        const userName = req.params.userName;
+        const blogs: Blog[] | null = await this.blogService.getBlogsByAuthor(userName);
+        if (!blogs) res.status(404).send({ error: 'fail to get blogs by author' });
+        else res.send(blogs);
+    };
 }

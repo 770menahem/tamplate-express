@@ -8,11 +8,13 @@ class BlogControllerMock implements IBlogController {
             _id: '1',
             title: 'test blog',
             description: 'test blog content',
+            author: 'test author',
         },
         {
             _id: 'todelete',
             title: 'test blog',
             description: 'test blog content',
+            author: 'test author2',
         },
     ];
 
@@ -53,6 +55,11 @@ class BlogControllerMock implements IBlogController {
         } else {
             res.status(404).json({ message: 'Blog not found' });
         }
+    };
+
+    public getBlogsByAuthor = async (req: Request, res: Response): Promise<void> => {
+        const blogs = this.blogs.filter((b) => b.author === req.params.userName);
+        res.json(blogs);
     };
 }
 
