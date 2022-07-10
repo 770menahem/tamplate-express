@@ -44,7 +44,7 @@ describe('Blog Routes', () => {
         const response = await request(server.getApp())
             .post('/blogs')
             .set('Authorization', 'token')
-            .send({ title: 'test blog 2', description: 'test blog content 2' });
+            .send({ title: 'test blog 2', description: 'test blog content 2', author: 'test author' });
         expect(response.status).toBe(200);
         expect(response.body.title).toEqual('test blog 2');
         expect(response.body.description).toEqual('test blog content 2');
@@ -53,7 +53,7 @@ describe('Blog Routes', () => {
     test('POST /blogs not enough fields', async () => {
         const response = await request(server.getApp()).post('/blogs').set('Authorization', 'token').send({ title: 'test blog 2' });
         expect(response.status).toBe(400);
-        expect(response.body.message).toBe('"body.description" is required');
+        expect(response.body.message).toBe('"body.description" is required. "body.author" is required');
     });
 
     test('PUT /blogs/:id fail to many fields', async () => {
@@ -93,6 +93,6 @@ describe('Blog Routes', () => {
     test('GET /blogs/author/:userName', async () => {
         const response = await request(server.getApp()).get('/blogs/author/test author').set('Authorization', 'token');
         expect(response.status).toBe(200);
-        expect(response.body.length).toEqual(1);
+        expect(response.body.length).toEqual(2);
     });
 });
