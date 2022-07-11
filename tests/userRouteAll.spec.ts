@@ -45,13 +45,13 @@ describe('User routes', () => {
     test('POST /users/login wrong password', async () => {
         const response = await request(server.getApp()).post('/users/login').send({ name: 'test user', password: 'test2' });
         expect(response.status).toBe(404);
-        expect(response.body.message).toBe('fail to login');
+        expect(response.body.message).toBe('Fail to login, Error: Not found');
     });
 
     test('POST /users/login wrong name', async () => {
         const response = await request(server.getApp()).post('/users/login').send({ name: 'test user lol', password: 'test' });
         expect(response.status).toBe(404);
-        expect(response.body.message).toBe('fail to login');
+        expect(response.body.message).toBe('Fail to login, Error: Not found');
     });
 
     test('GET /users', async () => {
@@ -66,10 +66,10 @@ describe('User routes', () => {
         expect(response.body).toEqual({ _id: '1', name: 'test user' });
     });
 
-    test('GET /users/:id not exist i', async () => {
+    test('GET /users/:id not exist id', async () => {
         const response = await request(server.getApp()).get('/users/6').set('Authorization', token);
         expect(response.status).toBe(404);
-        expect(response.body.message).toBe('User not found');
+        expect(response.body.message).toBe('Not found');
     });
 
     test('POST /users', async () => {
@@ -92,8 +92,8 @@ describe('User routes', () => {
 
     test('PUT /users/:id not exist id', async () => {
         const response = await request(server.getApp()).put('/users/9').set('Authorization', token).send({ name: 'new name' });
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe('fail to update user');
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('User not updated: Error: User not found');
     });
 
     test('PUT /users/:id not enough fields', async () => {
@@ -111,7 +111,7 @@ describe('User routes', () => {
 
     test('DELETE /users/:id not exist id', async () => {
         const response = await request(server.getApp()).delete('/users/9').set('Authorization', token);
-        expect(response.status).toBe(404);
-        expect(response.body.message).toBe('fail to delete user');
+        expect(response.status).toBe(400);
+        expect(response.body.message).toBe('User not deleted: Error: User not found');
     });
 });

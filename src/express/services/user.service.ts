@@ -91,9 +91,13 @@ export class UserService implements IUserService {
     };
 
     public login = async (name: string, password: string) => {
-        const user = await this.getUserByNameAndPassword(name, password);
+        try {
+            const user = await this.getUserByNameAndPassword(name, password);
 
-        const token = generateToken(user._id!.toString());
-        return { user, token };
+            const token = generateToken(user._id!.toString());
+            return { user, token };
+        } catch (error) {
+            throw new NotFoundError('Fail to login, ' + error);
+        }
     };
 }
