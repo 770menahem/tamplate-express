@@ -17,14 +17,11 @@ export class UserController implements IUserController {
         const password = req.body.password;
         const user: LoginUser | null = await this.UserService.login(name, password);
 
-        if (!user) res.status(404).send({ message: 'fail to login' });
-        else res.send(user);
+        res.send(user);
     };
 
     public createUser = async (req: Request, res: Response) => {
         const user: User | null = await this.UserService.createUser(req.body);
-
-        if (!user) res.status(404).send({ message: 'fail to create user' });
 
         res.send(user);
     };
@@ -34,23 +31,23 @@ export class UserController implements IUserController {
         const name = req.body.name;
 
         const user: User | null = await this.UserService.updateUser(userId, name);
-        if (!user) res.status(404).send({ message: 'fail to update user' });
-        else res.send(user);
+
+        res.send(user);
     };
 
     public deleteUser = async (req: Request, res: Response) => {
         const userId = req.params.userId;
 
         const user: User | null = await this.UserService.deleteUser(userId);
-        if (!user) res.status(404).send({ message: 'fail to delete user' });
-        else res.send({ msg: 'User deleted', user });
+
+        res.send({ msg: 'User deleted', user });
     };
 
     public getUserById = async (req: Request, res: Response) => {
         const userId = req.params.userId;
         const user: User | null = await this.UserService.getUserById(userId);
-        if (!user) res.status(404).send({ message: 'User not found' });
-        else res.send(user);
+
+        res.send(user);
     };
 
     public getAllUsers = async (_req: Request, res: Response) => {
@@ -63,7 +60,7 @@ export class UserController implements IUserController {
         const name = req.params.name;
         const password = req.params.password;
         const user: User | null = await this.UserService.getUserByNameAndPassword(name, password);
-        if (!user) res.status(404).send({ message: 'User not found' });
-        else res.send(user);
+
+        res.send(user);
     };
 }
