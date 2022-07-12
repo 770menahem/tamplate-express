@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 import Blog from '../../types/blog.type';
 import { IBlogRepo } from '../../interfaces/blogRepo.interface';
-import { logInfo } from '../../log/logger';
 
 export class BlogRepo implements IBlogRepo {
     private BlogModel: mongoose.Model<Blog>;
 
     constructor(blogModel: mongoose.Model<Blog>) {
-        logInfo('BlogRepo created');
         this.BlogModel = blogModel;
     }
 

@@ -2,12 +2,10 @@ import { IBlogService } from './../../interfaces/blogService.interface';
 import { Request, Response } from 'express';
 import Blog from '../../types/blog.type';
 import { IBlogController } from '../../interfaces/blogController.interface';
-import { logInfo } from '../../log/logger';
 export class BlogController implements IBlogController {
     private blogService: IBlogService;
 
     constructor(blogService: IBlogService) {
-        logInfo('BlogController created');
         this.blogService = blogService;
     }
 

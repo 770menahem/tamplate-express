@@ -2,7 +2,6 @@ import { NotCreatedError, NotFoundError } from './../error/errors/NotFoundError'
 import { generateToken } from '../../auth/token';
 import { IUserRepo } from '../../interfaces/userRepo.interface';
 import { IUserService } from '../../interfaces/userService.interface';
-import { logInfo } from '../../log/logger';
 import User from '../../types/user.type';
 import { decrypt, encrypt } from '../../utils/encrypt';
 import { verify } from 'jsonwebtoken';
@@ -14,7 +13,6 @@ export class UserService implements IUserService {
     private UserRepo: IUserRepo;
 
     constructor(userRepo: IUserRepo) {
-        logInfo('UserService created');
         this.UserRepo = userRepo;
     }
 

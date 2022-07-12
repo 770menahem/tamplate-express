@@ -3,12 +3,11 @@ import { Request, Response } from 'express';
 import { LoginUser } from '../../types/loginUser.type';
 import User from '../../types/user.type';
 import { IUserController } from '../../interfaces/userController.interface';
-import { logInfo } from '../../log/logger';
+
 export class UserController implements IUserController {
     private UserService: IUserService;
 
     constructor(UserService: IUserService) {
-        logInfo('UserController created');
         this.UserService = UserService;
     }
 

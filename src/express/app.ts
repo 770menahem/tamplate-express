@@ -45,7 +45,10 @@ class App {
 
     public async start(): Promise<void> {
         this.initializeRouters();
-        this.server = this.app.listen(this.port, () => logInfo(`Server started on port ${this.port}`));
+        this.server = this.app.listen(this.port, () => {
+            logInfo(`🚀 Server started on port ${this.port} 🚀`);
+            logInfo(`---------------------------------`);
+        });
     }
 
     public async stop(): Promise<void> {
