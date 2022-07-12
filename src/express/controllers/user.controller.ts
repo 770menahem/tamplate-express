@@ -15,13 +15,13 @@ export class UserController implements IUserController {
     public login = async (req: Request, res: Response) => {
         const name = req.body.name;
         const password = req.body.password;
-        const user: LoginUser | null = await this.UserService.login(name, password);
+        const user: LoginUser = await this.UserService.login(name, password);
 
         res.send(user);
     };
 
     public createUser = async (req: Request, res: Response) => {
-        const user: User | null = await this.UserService.createUser(req.body);
+        const user: User = await this.UserService.createUser(req.body);
 
         res.send(user);
     };
@@ -30,7 +30,7 @@ export class UserController implements IUserController {
         const userId = req.params.userId;
         const name = req.body.name;
 
-        const user: User | null = await this.UserService.updateUser(userId, name);
+        const user: User = await this.UserService.updateUser(userId, name);
 
         res.send(user);
     };
@@ -38,20 +38,20 @@ export class UserController implements IUserController {
     public deleteUser = async (req: Request, res: Response) => {
         const userId = req.params.userId;
 
-        const user: User | null = await this.UserService.deleteUser(userId);
+        const user: User = await this.UserService.deleteUser(userId);
 
         res.send({ msg: 'User deleted', user });
     };
 
     public getUserById = async (req: Request, res: Response) => {
         const userId = req.params.userId;
-        const user: User | null = await this.UserService.getUserById(userId);
+        const user: User = await this.UserService.getUserById(userId);
 
         res.send(user);
     };
 
     public getAllUsers = async (_req: Request, res: Response) => {
-        const users: User[] | null = await this.UserService.getAllUsers();
+        const users: User[] = await this.UserService.getAllUsers();
 
         res.send(users);
     };
@@ -59,7 +59,7 @@ export class UserController implements IUserController {
     public getUserByNameAndPassword = async (req: Request, res: Response) => {
         const name = req.params.name;
         const password = req.params.password;
-        const user: User | null = await this.UserService.getUserByNameAndPassword(name, password);
+        const user: User = await this.UserService.getUserByNameAndPassword(name, password);
 
         res.send(user);
     };
