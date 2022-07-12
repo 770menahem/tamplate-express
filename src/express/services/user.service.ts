@@ -17,7 +17,7 @@ export class UserService implements IUserService {
         this.UserRepo = userRepo;
     }
 
-    public auth = async (token: string) => {
+    public auth = async (token: string): Promise<string> => {
         const payload: any = verify(token, config.keys.tokenKey);
 
         if (!payload || !payload.userIdEnc) throw new UnauthorizedError('No token provided');
@@ -31,7 +31,7 @@ export class UserService implements IUserService {
         return userId;
     };
 
-    public createUser = async (user: User) => {
+    public createUser = async (user: User): Promise<User> => {
         try {
             const newUser = await this.UserRepo.createUser({
                 name: user.name,
@@ -44,7 +44,7 @@ export class UserService implements IUserService {
         }
     };
 
-    public updateUser = async (userId: string, name: string) => {
+    public updateUser = async (userId: string, name: string): Promise<User> => {
         try {
             const user = await this.UserRepo.updateUser(userId, name);
 
@@ -56,7 +56,7 @@ export class UserService implements IUserService {
         }
     };
 
-    public deleteUser = async (userId: string) => {
+    public deleteUser = async (userId: string): Promise<User> => {
         try {
             const user = await this.UserRepo.deleteUser(userId);
 
@@ -68,7 +68,7 @@ export class UserService implements IUserService {
         }
     };
 
-    public getUserById = async (userId: string) => {
+    public getUserById = async (userId: string): Promise<User> => {
         const user = await this.UserRepo.getUserById(userId);
 
         if (!user) throw new NotFoundError();
@@ -76,13 +76,13 @@ export class UserService implements IUserService {
         return user;
     };
 
-    public getAllUsers = async () => {
+    public getAllUsers = async (): Promise<User[]> => {
         const users = await this.UserRepo.getAllUsers();
 
-        return users;
+        return users || [];
     };
 
-    public getUserByNameAndPassword = async (name: string, password: string) => {
+    public getUserByNameAndPassword = async (name: string, password: string): Promise<User> => {
         const user = await this.UserRepo.getUserByNameAndPassword(name, encrypt(password));
 
         if (!user) throw new NotFoundError();
@@ -90,7 +90,7 @@ export class UserService implements IUserService {
         return user;
     };
 
-    public login = async (name: string, password: string) => {
+    public login = async (name: string, password: string): Promise<{ token: string; user: User }> => {
         try {
             const user = await this.getUserByNameAndPassword(name, password);
 
