@@ -8,6 +8,7 @@ import { decrypt, encrypt } from '../../utils/encrypt';
 import { verify } from 'jsonwebtoken';
 import config from '../../config/config';
 import { UnauthorizedError } from '../error/errors/unauthorizedError';
+import { LoginUser } from '../../types/loginUser.type';
 
 export class UserService implements IUserService {
     private UserRepo: IUserRepo;
@@ -90,7 +91,7 @@ export class UserService implements IUserService {
         return user;
     };
 
-    public login = async (name: string, password: string): Promise<{ token: string; user: User }> => {
+    public login = async (name: string, password: string): Promise<LoginUser> => {
         try {
             const user = await this.getUserByNameAndPassword(name, password);
 
