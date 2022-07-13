@@ -1,8 +1,8 @@
 import App from '../src/express/app';
 import AuthMock from './mocks/auth';
-import { UserController } from '../src/express/controllers/user.controller';
-import { UserService } from '../src/express/services/user.service';
-import UserRouter from '../src/express/routes/user.route';
+import { UserController } from '../src/express/layers/controllers/user.controller';
+import { UserService } from '../src/express/layers/services/user.service';
+import UserRouter from '../src/express/layers/routes/user.route';
 import * as request from 'supertest';
 import { verify } from 'jsonwebtoken';
 import config from '../src/config/config';

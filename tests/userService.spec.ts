@@ -1,7 +1,7 @@
-import { NotFoundError } from './../src/express/error/errors/NotFoundError';
+import { NotFoundError } from './../src/express/utils/error/errors/NotFoundError';
 import { IUserService } from '../src/interfaces/userService.interface';
 import User from '../src/types/user.type';
-import { UserService } from '../src/express/services/user.service';
+import { UserService } from '../src/express/layers/services/user.service';
 import UserRepoMock from './mocks/userRepo';
 import { encrypt } from '../src/utils/encrypt';
 
