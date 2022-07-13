@@ -1,20 +1,34 @@
 import { IBlogService } from '../src/interfaces/blogService.interface';
 import Blog from '../src/types/blog.type';
-import { BlogService } from '../src/express/services/blog.service';
+import { BlogService } from '../src/express/layers/services/blog.service';
 import BlogRepoMock from './mocks/blogRepo';
+import { NotFoundError } from '../src/express/utils/error/errors/NotFoundError';
 
 let blogService: IBlogService;
 
 jest.setTimeout(60000);
 
 describe('blog service', () => {
-    beforeAll(async () => {
-        blogService = new BlogService(new BlogRepoMock());
+    beforeEach(async () => {
+        const rep = new BlogRepoMock();
+        blogService = new BlogService(rep);
+        await rep.createBlog({
+            _id: '1',
+            title: 'title1',
+            description: 'description',
+            author: 'test author',
+        });
+        await rep.createBlog({
+            _id: '2',
+            title: 'title1',
+            description: 'description',
+            author: 'test author',
+        });
     });
 
     test('create blog', async () => {
         const newBlog: Blog = {
-            _id: '2',
+            _id: '3',
             title: 'test',
             description: 'description',
             author: 'test author',
@@ -34,8 +48,12 @@ describe('blog service', () => {
     test('delete blog', async () => {
         const blogId = '2';
         await blogService.deleteBlog(blogId);
-        const blog = await blogService.getBlog(blogId);
-        expect(blog).toEqual(null);
+        try {
+            await blogService.getBlog(blogId);
+            expect(true).toBeFalsy();
+        } catch (error) {
+            expect(error).toBeInstanceOf(NotFoundError);
+        }
     });
 
     test('get blog', async () => {
@@ -45,8 +63,12 @@ describe('blog service', () => {
     });
     test('fail to get blog', async () => {
         const blogId = '4';
-        const blog = await blogService.getBlog(blogId);
-        expect(blog).toBeFalsy();
+        try {
+            await blogService.getBlog(blogId);
+            expect(true).toBeFalsy();
+        } catch (error) {
+            expect(error).toBeInstanceOf(NotFoundError);
+        }
     });
 
     test('get all blogs', async () => {

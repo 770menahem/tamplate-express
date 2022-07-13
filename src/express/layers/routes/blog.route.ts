@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { wrapController } from '../utils/wraps';
-import validateRequest from '../joi/joi';
-import { updateSchema, createSchema } from '../joi/validator/blog.schema';
-import { IBlogController } from '../../interfaces/blogController.interface';
+import { wrapController } from '../../utils/wraps';
+import validateRequest from '../../utils/joi/joi';
+import { updateSchema, createSchema } from '../../utils/joi/validator/blog.schema';
+import { IBlogController } from '../../../interfaces/blogController.interface';
 
 class BlogRouter {
     public path: string = '/blogs';

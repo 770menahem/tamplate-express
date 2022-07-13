@@ -1,12 +1,14 @@
 [
-  "POST users/signin",
-  "GET users/:id",
+  "POST users/login",
   "POST users",
-  "PUT users/:id",
-  "DELETE users/:id",
+  "GET users",
+  "GET users/:userId",
+  "PUT users/:userId",
+  "DELETE users/:userId",
   "GET blogs",
-  "GET blogs/:id",
+  "GET blogs/:blogId",
   "POST blogs",
-  "PUT blogs/:id",
-  "DELETE blogs/:id"
+  "PUT blogs/:blogId",
+  "DELETE blogs/:blogId",
+  "GET blogs/author/:userName"
 ]

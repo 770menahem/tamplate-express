@@ -2,7 +2,7 @@ import * as request from 'supertest';
 import App from '../src/express/app';
 import AuthMock from './mocks/auth';
 import BlogControllerMock from './mocks/blogController';
-import BlogRouter from '../src/express/routes/blog.route';
+import BlogRouter from '../src/express/layers/routes/blog.route';
 
 let server: App;
 

@@ -1,13 +1,11 @@
 import mongoose from 'mongoose';
 import User from '../../types/user.type';
 import { IUserRepo } from '../../interfaces/userRepo.interface';
-import { logInfo } from '../../log/logger';
 
 export class UserRepo implements IUserRepo {
     private UserModel: mongoose.Model<User>;
 
     constructor(userModel: mongoose.Model<User>) {
-        logInfo('UserRepo created');
         this.UserModel = userModel;
     }
 

@@ -1,6 +1,7 @@
+import { BadRequestError } from '../error/errors/BadRequestError';
 import { Request } from 'express';
 import * as Joi from 'joi';
-import { wrapValidator } from '../utils/wraps';
+import { wrapValidator } from '../wraps';
 
 const defaultValidationOptions: Joi.ValidationOptions = {
     abortEarly: false,
@@ -29,7 +30,7 @@ const validateRequest = (schema: Joi.ObjectSchema<any>, options: Joi.ValidationO
     const validator = async (req: Request) => {
         const { error, value } = schema.unknown().validate(req, options);
         if (error) {
-            throw error;
+            throw new BadRequestError(error.message);
         }
 
         if (options.convert) {
