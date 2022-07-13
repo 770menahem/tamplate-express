@@ -1,6 +1,6 @@
-import Blog from '../../types/blog.type';
-import { IBlogRepo } from '../../interfaces/blogRepo.interface';
-import { IBlogService } from '../../interfaces/blogService.interface';
+import Blog from '../../../types/blog.type';
+import { IBlogRepo } from '../../../interfaces/blogRepo.interface';
+import { IBlogService } from '../../../interfaces/blogService.interface';
 
 export class BlogService implements IBlogService {
     private BlogRepo: IBlogRepo;

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { logError } from '../../log/logger';
+import { logError } from '../../../log/logger';
 import { ServiceError } from './errors/ServiceError';
 
 /**

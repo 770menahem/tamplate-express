@@ -1,13 +1,13 @@
-import { NotCreatedError, NotFoundError } from './../error/errors/NotFoundError';
-import { generateToken } from '../../auth/token';
-import { IUserRepo } from '../../interfaces/userRepo.interface';
-import { IUserService } from '../../interfaces/userService.interface';
-import User from '../../types/user.type';
-import { decrypt, encrypt } from '../../utils/encrypt';
+import { NotCreatedError, NotFoundError } from '../../utils/error/errors/NotFoundError';
+import { generateToken } from '../../../auth/token';
+import { IUserRepo } from '../../../interfaces/userRepo.interface';
+import { IUserService } from '../../../interfaces/userService.interface';
+import User from '../../../types/user.type';
+import { decrypt, encrypt } from '../../../utils/encrypt';
 import { verify } from 'jsonwebtoken';
-import config from '../../config/config';
-import { UnauthorizedError } from '../error/errors/unauthorizedError';
-import { LoginUser } from '../../types/loginUser.type';
+import config from '../../../config/config';
+import { UnauthorizedError } from '../../utils/error/errors/unauthorizedError';
+import { LoginUser } from '../../../types/loginUser.type';
 
 export class UserService implements IUserService {
     private UserRepo: IUserRepo;

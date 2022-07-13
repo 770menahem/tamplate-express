@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as logger from 'morgan';
-import { errorMiddleware } from './error/errorMiddleware';
+import { errorMiddleware } from './utils/error/errorMiddleware';
 import { logInfo } from '../log/logger';
 import * as cors from 'cors';
 import IRouter from '../interfaces/router.interface';
@@ -22,7 +22,7 @@ class App {
         this.routers = routers;
         this.app = express();
         this.config();
-        this.start();
+        this.initializeRouters();
     }
 
     public getApp(): express.Application {
@@ -44,7 +44,6 @@ class App {
     }
 
     public async start(): Promise<void> {
-        this.initializeRouters();
         this.server = this.app.listen(this.port, () => {
             logInfo(`🚀 Server started on port ${this.port} 🚀`);
             logInfo(`---------------------------------`);

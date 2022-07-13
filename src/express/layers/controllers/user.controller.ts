@@ -1,8 +1,8 @@
-import { IUserService } from './../../interfaces/userService.interface';
+import { IUserService } from '../../../interfaces/userService.interface';
 import { Request, Response } from 'express';
-import { LoginUser } from '../../types/loginUser.type';
-import User from '../../types/user.type';
-import { IUserController } from '../../interfaces/userController.interface';
+import { LoginUser } from '../../../types/loginUser.type';
+import User from '../../../types/user.type';
+import { IUserController } from '../../../interfaces/userController.interface';
 
 export class UserController implements IUserController {
     private UserService: IUserService;

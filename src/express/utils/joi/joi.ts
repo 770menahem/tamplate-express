@@ -1,7 +1,7 @@
-import { BadRequestError } from './../error/errors/BadRequestError';
+import { BadRequestError } from '../error/errors/BadRequestError';
 import { Request } from 'express';
 import * as Joi from 'joi';
-import { wrapValidator } from '../utils/wraps';
+import { wrapValidator } from '../wraps';
 
 const defaultValidationOptions: Joi.ValidationOptions = {
     abortEarly: false,
