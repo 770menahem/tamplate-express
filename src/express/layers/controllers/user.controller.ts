@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { LoginUser } from '../../../types/loginUser.type';
 import User from '../../../types/user.type';
 import { IUserController } from '../../../interfaces/userController.interface';
+import { ResponseHandler } from '../../utils/responseHandler';
 
 export class UserController implements IUserController {
     private UserService: IUserService;
@@ -16,13 +17,13 @@ export class UserController implements IUserController {
         const password = req.body.password;
         const user: LoginUser = await this.UserService.login(name, password);
 
-        res.send(user);
+        ResponseHandler.success(res, user);
     };
 
     public createUser = async (req: Request, res: Response) => {
         const user: User = await this.UserService.createUser(req.body);
 
-        res.send(user);
+        ResponseHandler.success(res, user);
     };
 
     public updateUser = async (req: Request, res: Response) => {
@@ -31,7 +32,7 @@ export class UserController implements IUserController {
 
         const user: User = await this.UserService.updateUser(userId, name);
 
-        res.send(user);
+        ResponseHandler.success(res, user);
     };
 
     public deleteUser = async (req: Request, res: Response) => {
@@ -39,20 +40,20 @@ export class UserController implements IUserController {
 
         const user: User = await this.UserService.deleteUser(userId);
 
-        res.send({ msg: 'User deleted', user });
+        ResponseHandler.success(res, { msg: 'User deleted', user });
     };
 
     public getUserById = async (req: Request, res: Response) => {
         const userId = req.params.userId;
         const user: User = await this.UserService.getUserById(userId);
 
-        res.send(user);
+        ResponseHandler.success(res, user);
     };
 
     public getAllUsers = async (_req: Request, res: Response) => {
         const users: User[] = await this.UserService.getAllUsers();
 
-        res.send(users);
+        ResponseHandler.success(res, users);
     };
 
     public getUserByNameAndPassword = async (req: Request, res: Response) => {
@@ -60,6 +61,6 @@ export class UserController implements IUserController {
         const password = req.params.password;
         const user: User = await this.UserService.getUserByNameAndPassword(name, password);
 
-        res.send(user);
+        ResponseHandler.success(res, user);
     };
 }

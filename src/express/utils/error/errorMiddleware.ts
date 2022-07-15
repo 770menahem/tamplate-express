@@ -1,5 +1,6 @@
 import * as express from 'express';
 import { logError } from '../../../log/logger';
+import Response from '../responseHandler';
 import { ServiceError } from './errors/ServiceError';
 
 /**
@@ -11,6 +12,6 @@ import { ServiceError } from './errors/ServiceError';
  */
 
 export const errorMiddleware = (error: ServiceError, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    res.status(error.code).send({ message: error.message });
     logError(JSON.stringify(error));
+    return Response(res, error);
 };
