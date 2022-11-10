@@ -1,8 +1,8 @@
-import { IUserController } from './../../interfaces/userController.interface';
+import { IUserController } from '../../../interfaces/userController.interface';
 import * as express from 'express';
-import { wrapController } from '../utils/wraps';
-import { updateSchema, createSchema } from '../joi/validator/user.schema';
-import validateRequest from '../joi/joi';
+import { wrapController } from '../../utils/wraps';
+import { updateSchema, createSchema } from '../../utils/joi/validator/user.schema';
+import validateRequest from '../../utils/joi/joi';
 class UserRouter {
     public path: string = '/users';
     public router = express.Router();

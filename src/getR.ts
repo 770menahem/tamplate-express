@@ -1,18 +1,13 @@
-import { writeFileSync } from 'fs';
-import app from './express/app';
+// import { writeFileSync } from 'fs';
+import initializeApp from './express/initializeApp';
 
 (async () => {
-    // console.log(
-    //   app._router.stack // registered routes
-    //     .filter((r) => r.route) // take out all the middleware
-    //     .map((r) => r.route.path)
-    // );
     const routers: string[] = [];
-    function print(path, layer) {
+    function print(path: string[], layer) {
         if (layer.route) {
-            layer.route.stack.forEach(print.bind(null, path.concat(split(layer.route.path))));
+            layer.route.stack.forEach((layer) => print(path.concat(split(layer.route.path)), layer));
         } else if (layer.name === 'router' && layer.handle.stack) {
-            layer.handle.stack.forEach(print.bind(null, path.concat(split(layer.regexp))));
+            layer.handle.stack.forEach((layer) => print(path.concat(split(layer.regexp)), layer));
         } else if (layer.method) {
             routers.push(layer.method.toUpperCase() + ' ' + path.concat(split(layer.regexp)).filter(Boolean).join('/'));
         }
@@ -33,16 +28,11 @@ import app from './express/app';
         }
     }
 
-    app['_router'].stack.forEach(print.bind(null, []));
+    const app = (await initializeApp(123)).getApp();
 
-    console.log(routers);
+    app['_router'].stack.forEach((layer) => print([], layer));
 
-    // writeFileSync('swager.txt', ``);
+    console.log(new Set(routers));
 
-    // const all: { url?: string; method?: string; param?: string[] }[] = [];
-
-    writeFileSync('./routers.json', JSON.stringify([...new Set(routers)]));
-    // writeFileSync('./obj.json', JSON.stringify(all));
+    // writeFileSync('./routers.json', JSON.stringify([...new Set(routers)]));
 })();
-
-console.log('dd');

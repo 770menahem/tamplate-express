@@ -1,17 +1,18 @@
 import mongoose from 'mongoose';
 import User from '../../types/user.type';
 import { IUserRepo } from '../../interfaces/userRepo.interface';
-import { logInfo } from '../../log/logger';
+import { isValidId } from '../utils/isValidId';
+import { ValidationError } from '../../express/utils/error/errors/ValidationError';
 
 export class UserRepo implements IUserRepo {
     private UserModel: mongoose.Model<User>;
 
     constructor(userModel: mongoose.Model<User>) {
-        logInfo('UserRepo created');
         this.UserModel = userModel;
     }
 
     public getUserById = async (userId: string): Promise<User | null> => {
+        if (!isValidId(userId)) throw new ValidationError('Invalid User Id');
         const user = await this.UserModel.findById(userId, { password: 0 });
         return user;
     };
@@ -22,16 +23,19 @@ export class UserRepo implements IUserRepo {
     };
 
     public updateUser = async (userId: string, name: string): Promise<User | null> => {
+        if (!isValidId(userId)) throw new ValidationError('Invalid User Id');
         const user = await this.UserModel.findByIdAndUpdate(userId, { name }, { new: true });
         return user;
     };
 
     public deleteUser = async (userId: string): Promise<User | null> => {
+        if (!isValidId(userId)) throw new ValidationError('Invalid User Id');
         const user = await this.UserModel.findByIdAndDelete(userId);
         return user;
     };
 
     public getUser = async (userId: string): Promise<User | null> => {
+        if (!isValidId(userId)) throw new ValidationError('Invalid User Id');
         const user = await this.UserModel.findById(userId, { password: 0 });
         return user;
     };

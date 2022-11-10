@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 import Blog from '../../types/blog.type';
 import { IBlogRepo } from '../../interfaces/blogRepo.interface';
-import { logInfo } from '../../log/logger';
+import { ValidationError } from '../../express/utils/error/errors/ValidationError';
+import { isValidId } from '../utils/isValidId';
 
 export class BlogRepo implements IBlogRepo {
     private BlogModel: mongoose.Model<Blog>;
 
     constructor(blogModel: mongoose.Model<Blog>) {
-        logInfo('BlogRepo created');
         this.BlogModel = blogModel;
     }
 
@@ -17,16 +17,22 @@ export class BlogRepo implements IBlogRepo {
     };
 
     public updateBlog = async (blogId: string, description: string): Promise<Blog | null> => {
+        if (!isValidId(blogId)) throw new ValidationError('Invalid Blog Id');
+
         const blog = await this.BlogModel.findByIdAndUpdate(blogId, { description }, { new: true });
         return blog;
     };
 
     public deleteBlog = async (blogId: string): Promise<Blog | null> => {
+        if (!isValidId(blogId)) throw new ValidationError('Invalid Blog Id');
+
         const blog = await this.BlogModel.findByIdAndDelete(blogId);
         return blog;
     };
 
     public getBlog = async (blogId: string): Promise<Blog | null> => {
+        if (!isValidId(blogId)) throw new ValidationError('Invalid Blog Id');
+
         const blog = await this.BlogModel.findById(blogId).populate('author');
         return blog;
     };
