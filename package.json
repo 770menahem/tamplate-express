@@ -15,7 +15,7 @@
     "docker-build": "docker build -t template-express .",
     "docker-compose": "docker-compose up -d"
   },
-  "author": "Menahem leibman",
+  "author": "Menahem Leibman",
   "license": "ISC",
   "directories": {
     "test": "tests"
