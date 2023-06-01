@@ -2,13 +2,8 @@ import User from '../../src/types/user.type';
 import { IUserRepo } from './../../src/interfaces/userRepo.interface';
 
 class UserRepoMock implements IUserRepo {
-    private users: User[] = [
-        {
-            _id: '1',
-            name: 'test user',
-            password: 'qiYCgeA3lHqOGYsQVCkmZA==',
-        },
-    ];
+    private users: User[] = [];
+
     public getUserById = async (userId: string): Promise<User | null> => {
         const user = this.users.find((u) => u._id === userId);
         return user ? ({ _id: user._id, name: user.name } as User) : null;

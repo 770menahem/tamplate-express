@@ -1,7 +1,7 @@
 import App from '../src/express/app';
 import AuthMock from './mocks/auth';
 import UserControllerMock from './mocks/userController';
-import UserRouter from '../src/express/routes/user.route';
+import UserRouter from '../src/express/layers/routes/user.route';
 import * as request from 'supertest';
 import { verify } from 'jsonwebtoken';
 import config from '../src/config/config';
